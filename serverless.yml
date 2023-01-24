@@ -12,7 +12,6 @@ frameworkVersion: '3'
 custom:
   config: ${file(config/${self:provider.stage}.yml)}
   accountId: ${self:custom.config.accountId}
-  table: ${self:custom.config.table}-${self:provider.stage}
 
 provider:
   name: aws
@@ -59,23 +58,7 @@ resources:
                 - Effect: Allow
                   Action:
                     [
-                      "dynamodb:GetItem",
-                      "dynamodb:Scan",
-                      "dynamodb:Query",
-                      "dynamodb:BatchGetItem",
-                      "dynamodb:DescribeTable",
+                      "s3:*",
+                      "s3-object-lambda:*",
                     ]
-                  Resource: arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}
-    blockNumberDDBTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:custom.table}
-        AttributeDefinitions:
-          - AttributeName: phoneNumber
-            AttributeType: S
-        KeySchema:
-          - AttributeName: phoneNumber
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+                  Resource: arn:aws:s3:${self:provider.region}:${self:custom.accountId}
