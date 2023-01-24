@@ -2,6 +2,7 @@ const athenaClient = require('./awsClient');
 const dotenv = require('dotenv');
 dotenv.config();
 
+
 // Add new query
 // Add database of ctr files
 // Place query result in S3 buckt for ODBC connection
