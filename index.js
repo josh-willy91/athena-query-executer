@@ -10,8 +10,8 @@ dotenv.config();
 // Place query result in S3 buckt for ODBC connection
 // Check if a file is in the S3 bucket and if so then delete before adding the new file
 
-
-const athenaQueryExecuter = async() => {
+// const athenaQueryExecuter = async() => {
+module.exports.athenaQueryExecuter = async() => {
     const DATABASE = process.env.DATABASE; 
     const QUERY = process.env.QUERY;
     const OUTPUT = process.env.OUTPUT;
@@ -42,4 +42,4 @@ const athenaQueryExecuter = async() => {
 
     // return
 }
-athenaQueryExecuter();
+// athenaQueryExecuter();

@@ -1,3 +1,6 @@
 # Production Env YAML
 accountId: 672111312022
 region: us-west-2
+DATABASE: "contact-lens-analysis"
+QUERY: 'SELECT * FROM "AwsDataCatalog"."contact-lens-analysis"."contactlens"'
+OUTPUT: "s3://athena-contact-lens-results/combinedData"

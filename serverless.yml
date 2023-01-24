@@ -12,6 +12,9 @@ frameworkVersion: '3'
 custom:
   config: ${file(config/${self:provider.stage}.yml)}
   accountId: ${self:custom.config.accountId}
+  DATABASE: ${self:custom.config.DATABASE}
+  QUERY: ${self:custom.config.QUERY}
+  OUTPUT: ${self:custom.config.OUTPUT}
 
 provider:
   name: aws
@@ -59,6 +62,10 @@ resources:
                   Action:
                     [
                       "s3:*",
+                      "s3:listObject",
                       "s3-object-lambda:*",
                     ]
-                  Resource: arn:aws:s3:${self:provider.region}:${self:custom.accountId}
+                  Resource: [
+                    arn:aws:s3:::prod-ctr-streaming-stack-prodctrconsumerstorageda-vjsdzsa0zl25/combinedData*,
+                    arn:aws:s3:::athena-contact-lens-results
+                  ]

@@ -1,7 +1,13 @@
 {
+  "name": "athena-query-executer",
+  "version": "1.0.0",
+  "description": "Node Lambda",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "aws-sdk": "^2.1267.0",
     "dotenv": "^16.0.3"
-  },
-  "name": "athena-query-executer"
+  }
 }
