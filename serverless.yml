@@ -1,0 +1,81 @@
+
+
+
+
+
+
+
+service: athena-query-executer
+
+frameworkVersion: '3'
+
+custom:
+  config: ${file(config/${self:provider.stage}.yml)}
+  accountId: ${self:custom.config.accountId}
+  table: ${self:custom.config.table}-${self:provider.stage}
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  runtime: nodejs14.x
+  region: ${self:custom.config.region}
+
+functions:
+  lambda:
+    handler: index.athenaQueryExecuter
+    role: athenaQueryExecuterRole
+
+resources:
+  Resources:
+    athenaQueryExecuterRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: athenaQueryExecuterRole
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: athenaQueryExecuterPolicy
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource:
+                    - "Fn::Join":
+                        - ":"
+                        - - "arn:aws:logs"
+                          - Ref: "AWS::Region"
+                          - Ref: "AWS::AccountId"
+                          - "log-group:/aws/lambda/*:*:*"
+                - Effect: Allow
+                  Action:
+                    [
+                      "dynamodb:GetItem",
+                      "dynamodb:Scan",
+                      "dynamodb:Query",
+                      "dynamodb:BatchGetItem",
+                      "dynamodb:DescribeTable",
+                    ]
+                  Resource: arn:aws:dynamodb:${self:provider.region}:${self:custom.accountId}
+    blockNumberDDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.table}
+        AttributeDefinitions:
+          - AttributeName: phoneNumber
+            AttributeType: S
+        KeySchema:
+          - AttributeName: phoneNumber
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

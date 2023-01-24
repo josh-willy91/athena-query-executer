@@ -1,3 +1,5 @@
+const aws = require('aws-sdk');
+const s3 = new aws.S3();
 const athenaClient = require('./awsClient');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -14,19 +16,30 @@ const athenaQueryExecuter = async() => {
     const QUERY = process.env.QUERY;
     const OUTPUT = process.env.OUTPUT;
 
-    const athenaParams = {
-        QueryString: QUERY,
-        QueryExecutionContext: {'Database': DATABASE},
-        ResultConfiguration: {'OutputLocation': OUTPUT}
-    }
+    const bucketParams = {
+        Bucket: "athena-contact-lens-results",
+    };
 
     try {
-        const response = await athenaClient.startQueryExecution(athenaParams).promise();
-        console.log('=====athena response=====', response)
+        const response = await s3.listObjects(bucketParams).promise();
+        console.log('=====list bucket=====', response)
     } catch(error) {
-        console.log('=====error=====', error)
+        console.log('=====list bucket error=====', error)
     }
 
-    return
+    // const athenaParams = {
+    //     QueryString: QUERY,
+    //     QueryExecutionContext: {'Database': DATABASE},
+    //     ResultConfiguration: {'OutputLocation': OUTPUT}
+    // }
+
+    // try {
+    //     const response = await athenaClient.startQueryExecution(athenaParams).promise();
+    //     console.log('=====athena response=====', response)
+    // } catch(error) {
+    //     console.log('=====error=====', error)
+    // }
+
+    // return
 }
 athenaQueryExecuter();
