@@ -8,6 +8,7 @@ custom:
   DATABASE: ${self:custom.config.DATABASE}
   QUERY: ${self:custom.config.QUERY}
   OUTPUT: ${self:custom.config.OUTPUT}
+  OUTPUT_BUCKET: ${self:custom.config.OUTPUT_BUCKET}
 
 provider:
   name: aws
