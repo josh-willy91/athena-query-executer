@@ -20,7 +20,7 @@ const s3Client = new AWS.S3()
 
 
 module.exports = {
-    athenaClient, 
-    s3Client
+    s3Client,
+    athenaClient
 };
-// module.exports = s3Client;
+// module.exports = athenaClient;

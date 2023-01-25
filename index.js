@@ -1,8 +1,7 @@
 const AWS = require('aws-sdk');
-const s3 = new AWS.S3();
-const athena = new AWS.Athena();
-const athenaClient = require('./awsClient');
-const s3Client = require('./awsClient');
+// const s3 = new AWS.S3();
+// const athena = new AWS.Athena();
+const { athenaClient, s3Client } = require('./awsClient');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -38,8 +37,8 @@ const athenaQueryExecuter = async() => {
 
                 try {
                     // Deleting object in bucket
-                    // const deleteObject = await s3Client.deleteObject(deleteParams).promise();
-                    // console.log(deleteObject, '=====deletedObject=====')
+                    const deleteObject = await s3Client.deleteObject(deleteParams).promise();
+                    console.log(deleteObject, '=====deletedObject=====')
                 } catch(error) {
                     console.log(error, '=====deletedObject error=====')
                 }

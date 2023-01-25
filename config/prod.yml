@@ -2,5 +2,5 @@
 accountId: 672111312022
 region: us-west-2
 DATABASE: "contact-lens-analysis"
-QUERY: 'SELECT * FROM "AwsDataCatalog"."contact-lens-analysis"."contactlens"'
+QUERY: 'SELECT * FROM "AwsDataCatalog"."contact-lens-analysis".contactlens JOIN "AwsDataCatalog"."ctr".flat ON "AwsDataCatalog".contact-lens-analysis".contactlens.customermetadata.ContactId = "ctr".flat.contactid'
 OUTPUT: "s3://athena-contact-lens-results/combinedData"
