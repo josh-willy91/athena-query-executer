@@ -56,10 +56,23 @@ resources:
                   Action:
                     [
                       "s3:*",
-                      "s3:listObject",
-                      "s3-object-lambda:*",
                     ]
                   Resource: [
-                    arn:aws:s3:::prod-ctr-streaming-stack-prodctrconsumerstorageda-vjsdzsa0zl25/combinedData*,
-                    arn:aws:s3:::athena-contact-lens-results
+                    "*"
                   ]
+                - Effect: Allow
+                  Action: 
+                    [
+                      "athena:*"
+                    ]
+                  Resource: [
+                      "*"
+                    ]
+                - Effect: "Allow"
+                  Action: 
+                    [
+                      "glue:*",
+                    ]
+                  Resource: [
+                      "*"
+                    ]

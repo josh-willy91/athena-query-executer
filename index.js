@@ -1,12 +1,14 @@
 const AWS = require('aws-sdk');
-// const s3 = new AWS.S3();
-// const athena = new AWS.Athena();
-const { athenaClient, s3Client } = require('./awsClient');
+// Uncomment imports below before deploying
+const S3 = new AWS.S3();
+const Athena = new AWS.Athena();
+// Uncomment import below to test locally
+// const { Athena, S3 } = require('./awsClient');
 const dotenv = require('dotenv');
 dotenv.config();
 
 
-
+// Comment out "const athenaQueryExecuter" to deploy and comment out "module.exports.athenaQueryExecuter" to test locally
 // const athenaQueryExecuter = async() => {
 module.exports.athenaQueryExecuter = async() => {
     console.log('=====Start Function=====')
@@ -24,7 +26,7 @@ module.exports.athenaQueryExecuter = async() => {
 
     try {
         // list objects in S3 location "athena-contact-lens-results/combinedData"
-        const response = await s3Client.listObjects(listBucketParams).promise();
+        const response = await S3.listObjects(listBucketParams).promise();
         console.log('=====list bucket=====', response)
 
         // Loop through objects listed and delete each one
@@ -39,7 +41,7 @@ module.exports.athenaQueryExecuter = async() => {
 
                 try {
                     // Deleting object in bucket
-                    const deleteObject = await s3Client.deleteObject(deleteParams).promise();
+                    const deleteObject = await S3.deleteObject(deleteParams).promise();
                     console.log(deleteObject, '=====deletedObject=====')
                 } catch(error) {
                     console.log(error, '=====deletedObject error=====')
@@ -59,8 +61,8 @@ module.exports.athenaQueryExecuter = async() => {
 
 
     try {
-        const response = await athenaClient.startQueryExecution(athenaParams).promise();
-        console.log('=====athena response=====', response)
+        const response = await Athena.startQueryExecution(athenaParams).promise();
+        console.log('OutputLocation:', OUTPUT, '=====athena response=====', response)
     } catch(error) {
         console.log('=====startQueryExecution error=====', error)
     }
@@ -69,4 +71,5 @@ module.exports.athenaQueryExecuter = async() => {
     console.log('=====End Function=====')
     return
 }
+// Uncomment to test locally
 // athenaQueryExecuter();

@@ -3,5 +3,5 @@ accountId: 060767761971
 region: us-west-2
 DATABASE: "contact-lens-analysis"
 QUERY: 'SELECT * FROM "AwsDataCatalog"."contact-lens-analysis".contactlens JOIN "AwsDataCatalog"."ctr".flat ON "AwsDataCatalog".contact-lens-analysis".contactlens.customermetadata.ContactId = "ctr".flat.contactid'
-OUTPUT: "s3://athena-contact-lens-results/combinedData"
-OUTPUT_BUCKET: "athena-contact-lens-results"
+OUTPUT: "s3://prod-ctr-streaming-stack-prodctrconsumerstorageda-vjsdzsa0zl25/combinedData"
+OUTPUT_BUCKET: "prod-ctr-streaming-stack-prodctrconsumerstorageda-vjsdzsa0zl25"
