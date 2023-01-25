@@ -1,37 +1,67 @@
-const aws = require('aws-sdk');
-const s3 = new aws.S3();
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3();
+const athena = new AWS.Athena();
 const athenaClient = require('./awsClient');
+const s3Client = require('./awsClient');
 const dotenv = require('dotenv');
 dotenv.config();
 
 
-// Add new query
-// Add database of ctr files
-// Place query result in S3 buckt for ODBC connection
-// Check if a file is in the S3 bucket and if so then delete before adding the new file
 
-// const athenaQueryExecuter = async() => {
-module.exports.athenaQueryExecuter = async() => {
+const athenaQueryExecuter = async() => {
+// module.exports.athenaQueryExecuter = async() => {
     const DATABASE = process.env.DATABASE; 
     const QUERY = process.env.QUERY;
     const OUTPUT = process.env.OUTPUT;
 
+    // console.log('=====s3 client=====', s3Client)
+
     const bucketParams = {
         Bucket: "athena-contact-lens-results",
+        Prefix: "combinedData"
     };
 
     try {
-        const response = await s3.listObjects(bucketParams).promise();
+        // list objects in S3 location "athena-contact-lens-results/combinedData"
+        const response = await s3Client.listObjects(bucketParams).promise();
         console.log('=====list bucket=====', response)
+
+        // Loop through objects listed and delete each one
+        if(response.Contents) {
+            response.Contents.forEach(async(file) => {
+                const deleteParams = {
+                    Bucket: "athena-contact-lens-results",
+                    Key: file.Key
+                };
+                
+                console.log(deleteParams, '=====deleteParams=====')
+
+                try {
+                    // Deleting object in bucket
+                    // const deleteObject = await s3Client.deleteObject(deleteParams).promise();
+                    // console.log(deleteObject, '=====deletedObject=====')
+                } catch(error) {
+                    console.log(error, '=====deletedObject error=====')
+                }
+            });
+        }
     } catch(error) {
         console.log('=====list bucket error=====', error)
     }
 
-    // const athenaParams = {
-    //     QueryString: QUERY,
-    //     QueryExecutionContext: {'Database': DATABASE},
-    //     ResultConfiguration: {'OutputLocation': OUTPUT}
+
+    // try {
+    //     const response = await s3.listObjects(bucketParams).promise();
+    //     console.log('=====list bucket=====', response)
+    // } catch(error) {
+    //     console.log('=====list bucket error=====', error)
     // }
+
+    const athenaParams = {
+        QueryString: QUERY,
+        QueryExecutionContext: {'Database': DATABASE},
+        ResultConfiguration: {'OutputLocation': OUTPUT}
+    }
 
     // try {
     //     const response = await athenaClient.startQueryExecution(athenaParams).promise();
@@ -40,6 +70,14 @@ module.exports.athenaQueryExecuter = async() => {
     //     console.log('=====error=====', error)
     // }
 
-    // return
+    try {
+        const response = await athenaClient.startQueryExecution(athenaParams).promise();
+        console.log('=====athena response=====', response)
+    } catch(error) {
+        console.log('=====startQueryExecution error=====', error)
+    }
+
+
+    return
 }
-// athenaQueryExecuter();
+athenaQueryExecuter();

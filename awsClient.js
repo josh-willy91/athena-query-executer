@@ -16,6 +16,11 @@ AWS.config.update({region: REGION, credentials: CREDENTIALS});
 
 // create ddb client
 const athenaClient = new AWS.Athena()
+const s3Client = new AWS.S3()
 
 
-module.exports = athenaClient;
+module.exports = {
+    athenaClient, 
+    s3Client
+};
+// module.exports = s3Client;
