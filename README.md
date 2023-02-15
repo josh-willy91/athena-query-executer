@@ -4,6 +4,9 @@
 - Build: Node.js Serverless Lambda
 - Runtime: 14.x
 
+### What Does This Do
+- This lambda was built to delete S3 files from previous report runs then execute a new SQL query in Athena and output the data to the S3 file. This lambda was designed to be on eventBridge or something that will execute this function on a schedule.   
+
 ### Deployment
 - To deploy this lambda, go to the config folder and update the file with the corresponding environment you want to deploy.  An example would be, if you want to deploy the lambda to a clients dev environment then update the "dev.yml" file in the config folder.  
 - This lambda deploys all resources needed so it doesn't require you to create anything within the console prior to deploying this lambda.
