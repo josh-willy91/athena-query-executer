@@ -10,8 +10,8 @@
 - The below scripts can be used to deploy the lambda once the config folder is updated.  
 
 ### Deployment Script
-- sls deploy --stage dev --aws-profile riverside-dev
-- sls deploy --stage prod --aws-profile riverside-prod
+- sls deploy --stage dev --aws-profile client-dev
+- sls deploy --stage prod --aws-profile client-prod
 
 ### Config yml variables
 - accountId: 111111111111
