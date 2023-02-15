@@ -1,7 +1,7 @@
 # Production Env YAML
-accountId: 672111312022
+accountId: 000123456789
 region: us-west-2
 DATABASE: "contact-lens-analysis"
 QUERY: 'SELECT * FROM "AwsDataCatalog"."contact-lens-analysis".contactlens JOIN "AwsDataCatalog"."ctr".flat ON "AwsDataCatalog".contact-lens-analysis".contactlens.customermetadata.ContactId = "ctr".flat.contactid'
-OUTPUT: "s3://prod-ctr-streaming-stack-prodctrconsumerstorageda-vjsdzsa0zl25/combinedData"
-OUTPUT_BUCKET: "prod-ctr-streaming-stack-prodctrconsumerstorageda-vjsdzsa0zl25"
+OUTPUT: "s3://example-prod-ctr-streaming-stack-prodctrconsumerstorageda/combinedData"
+OUTPUT_BUCKET: "example-prod-ctr-streaming-stack-prodctrconsumerstorageda"
