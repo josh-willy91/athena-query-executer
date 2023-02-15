@@ -24,4 +24,4 @@
 ### Run Locally
 - In order to run the this project locally for testing, you will need to comment in/out several sections in the index file.  All areas that will need commenting in/out have notes by them.  You can search for the word "Comment" to find all areas that will need adjusting.  You will also need to make sure the awsClient.js file is accurate.  Once all this is done then you can run locally with the below command.
 
-- Run locally command: node index.js
+- command: node index.js
